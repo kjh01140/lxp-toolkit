@@ -1,0 +1,12 @@
+{
+  "LXP 강의 다운로더": {
+    "version": "1.1.0",
+    "zip": "LXP-Lecture-Downloader.zip",
+    "note": "새 버전 알림 기능 추가"
+  },
+  "LXP 동영상 진도 현황": {
+    "version": "2.1",
+    "zip": "LXP-Progress-Dashboard.zip",
+    "note": "숨긴 항목이 다시 나타나던 문제 수정"
+  }
+}

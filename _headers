@@ -6,3 +6,7 @@
 /api/*
   X-Robots-Tag: noindex
   Cache-Control: no-store
+
+/updates.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store

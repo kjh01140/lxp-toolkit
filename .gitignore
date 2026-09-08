@@ -3,4 +3,5 @@ node_modules/
 .dev.vars
 .DS_Store
 LXP-Progress-Dashboard.zip
+LXP-Lecture-Downloader.zip
 assets/_*.png

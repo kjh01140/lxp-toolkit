@@ -641,6 +641,28 @@
     </div>
   </section>
 
+  <!-- ============ 업데이트 방법 ============ -->
+  <section class="screen" id="s-update" data-screen hidden>
+    <a class="back" href="#/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>홈</a>
+    <h2 class="h2row" tabindex="-1">확장 업데이트</h2>
+    <p class="def" style="color:var(--ink-2);max-width:46ch;margin-bottom:.5rem">확장을 쓰다 보면 패널이나 팝업에 <strong>“🔔 새 버전”</strong> 알림이 뜽니다. 크로미 웹스토어에 올리지 않은 개인 확장이라 자동 업데이트는 안 되지만, 아래 순서면 1분입니다.</p>
+
+    <div class="block-label">새 버전 알림이 뗴을 때</div>
+    <ol class="flow">
+      <li>알림의 <strong>[받기]</strong> 클릭 → 다운로드 폴더에 zip 저장. 항상 같은 이름으로 <strong>덮어써</strong> <code>(1) (2)</code> 가 안 쌓입니다.</li>
+      <li>그 zip을 <strong>더블클릭해서 엽니다</strong> — <strong>압축은 풀지 마세요.</strong></li>
+      <li>안의 파일 전체 선택(<code>Ctrl+A</code>) → 복사(<code>Ctrl+C</code>).</li>
+      <li>확장이 설치된 폴더를 엽니다 — <code>chrome://extensions</code> 에서 개발자 모드를 켜면 각 확장 밑에 <strong>“로드된 위치”</strong> 경로가 보입니다.</li>
+      <li>그 폴더에 붙여넣기(<code>Ctrl+V</code>) → <strong>“대상의 파일 바꾸기”</strong> 선택.</li>
+      <li><code>chrome://extensions</code> 로 돌아가 그 확장의 <strong>새로고침(↻)</strong> 클릭. (또는 크롬 재시작)</li>
+    </ol>
+    <div class="notes">
+      <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg><span>버전이 올라가면 알림은 자동으로 사라집니다. 처음 설치는 각 도구의 <strong>[설치]</strong> 페이지를 보세요.</span></div>
+      <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>“새 강의·공지 알림”은 Windows 앱이라 다릅니다 — 새로 받아 <code>설치</code> 를 다시 실행하면 갱신됩니다.</span></div>
+    </div>
+  </section>
+
+
 </main>
 
 <footer>
@@ -676,7 +698,8 @@
       "": "s-home",
       "downloader": "s-dl", "downloader/install": "s-dl-install", "downloader/usage": "s-dl-usage",
       "alarm": "s-al", "alarm/install": "s-al-install", "alarm/usage": "s-al-usage",
-      "progress": "s-pg", "progress/install": "s-pg-install", "progress/usage": "s-pg-usage"
+      "progress": "s-pg", "progress/install": "s-pg-install", "progress/usage": "s-pg-usage",
+      "update": "s-update"
     };
     var TOOLKEY = { downloader: "downloader", alarm: "alarm", progress: "progress" };
     var screens = Array.prototype.slice.call(document.querySelectorAll("[data-screen]"));
