@@ -1,0 +1,12 @@
+name = "lxp-toolkit"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "."
+
+# KV: 방문/다운로드 집계 저장소 (functions/api/*.js 에서 env.STATS)
+[[kv_namespaces]]
+binding = "STATS"
+id = "7f33a94913e34cf69dd9b4a23a722b74"
+
+# 민감하지 않은 설정값. 관리자 비밀번호(ADMIN_PW)는 secret 으로 별도 저장.
+[vars]
+GH_REPO = "kjh01140/lxp-toolkit"
