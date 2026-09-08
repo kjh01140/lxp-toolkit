@@ -11,7 +11,8 @@
 <style>
   :root {
     --bg:#f5f6f8; --surface:#fff; --surface-2:#edeff3; --ink:#16181d; --ink-2:#565d6b;
-    --ink-3:#8b93a2; --line:#e2e5ea; --accent:#1a5fd0; --accent-soft:#e7effb; --ok:#1f9d55; --alert:#d9791f;
+    --ink-3:#8b93a2; --line:#e2e5ea; --accent:#1a5fd0; --accent-soft:#e7effb;
+    --ok:#1f9d55; --ok-soft:#e3f4ea; --alert:#d9791f; --alert-soft:#fbeede;
     --shadow:0 1px 2px rgba(20,22,28,.05), 0 12px 32px -14px rgba(20,22,28,.14);
     --font:"IBM Plex Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
     --mono:"Schibsted Grotesk","IBM Plex Sans KR",ui-monospace,Menlo,monospace;
@@ -19,13 +20,14 @@
   }
   @media (prefers-color-scheme: dark){:root{
     --bg:#0c0e12; --surface:#14171d; --surface-2:#1b1f27; --ink:#eef1f5; --ink-2:#a3accb;
-    --ink-3:#6c7686; --line:#262c36; --accent:#6b9bff; --accent-soft:#17233d; --ok:#54c98a; --alert:#eaa059;
+    --ink-3:#6c7686; --line:#262c36; --accent:#6b9bff; --accent-soft:#17233d;
+    --ok:#54c98a; --ok-soft:#14271c; --alert:#eaa059; --alert-soft:#2c2114;
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 16px 40px -16px rgba(0,0,0,.6); color-scheme:dark;
   }}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
   a{color:var(--accent)}
-  .wrap{max-width:940px;margin:0 auto;padding:clamp(1.2rem,4vw,2.6rem)}
+  .wrap{max-width:960px;margin:0 auto;padding:clamp(1.2rem,4vw,2.6rem)}
   h1{font-size:1.4rem;margin:0 0 .2rem;letter-spacing:-.02em}
   .muted{color:var(--ink-3);font-size:.85rem;font-family:var(--mono)}
   /* gate */
@@ -38,34 +40,47 @@
   .err{color:var(--alert);font-size:.82rem;margin-top:.7rem;min-height:1em}
   /* dashboard */
   .top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.6rem;margin-bottom:1.6rem}
-  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-bottom:1.4rem}
+  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:1.4rem}
   .kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem;box-shadow:var(--shadow)}
   .kpi .label{font-size:.76rem;color:var(--ink-3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em}
   .kpi .num{font-size:2rem;font-weight:700;font-family:var(--mono);letter-spacing:-.02em;margin-top:.3rem}
   .kpi .sub{font-size:.8rem;color:var(--ink-3);margin-top:.15rem}
   .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.3rem;box-shadow:var(--shadow);margin-bottom:1.4rem}
-  .panel h2{font-size:.95rem;margin:0 0 1rem;letter-spacing:-.01em}
-  /* trend */
-  .bars{display:flex;align-items:flex-end;gap:3px;height:130px}
-  .bars .b{flex:1;min-width:0;background:var(--accent-soft);border-radius:3px 3px 0 0;position:relative}
-  .bars .b > i{position:absolute;inset:auto 0 0 0;background:var(--accent);border-radius:3px 3px 0 0;display:block}
-  .bars .b:hover::after{content:attr(data-t);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);font-size:.7rem;font-family:var(--mono);padding:.15rem .4rem;border-radius:4px;white-space:nowrap;margin-bottom:4px;z-index:2}
-  .axis{display:flex;justify-content:space-between;margin-top:.4rem;font-size:.7rem;color:var(--ink-3);font-family:var(--mono)}
-  /* table */
-  table{width:100%;border-collapse:collapse;font-size:.9rem}
-  th,td{text-align:left;padding:.6rem .5rem;border-bottom:1px solid var(--line)}
-  th{font-size:.74rem;color:var(--ink-3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-  td.n{font-family:var(--mono);font-weight:600;text-align:right}
-  td.name{font-family:var(--mono);font-size:.82rem}
-  tr:last-child td{border-bottom:0}
-  .tag{display:inline-block;font-family:var(--mono);font-size:.68rem;background:var(--surface-2);color:var(--ink-2);padding:.05rem .35rem;border-radius:4px;margin-left:.4rem}
+  .panel h2{font-size:.95rem;margin:0 0 .2rem;letter-spacing:-.01em}
+  .panel .cap{font-size:.78rem;color:var(--ink-3);font-family:var(--mono);margin-bottom:1.1rem}
+
+  /* daily bar chart */
+  .chart{position:relative;padding-left:34px}
+  .chart .ymax{position:absolute;left:0;top:0;font-size:.7rem;color:var(--ink-3);font-family:var(--mono)}
+  .chart .ymid{position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:.7rem;color:var(--ink-3);font-family:var(--mono)}
+  .chart .grid-line{position:absolute;left:34px;right:0;border-top:1px dashed var(--line)}
+  .bars{display:flex;align-items:flex-end;gap:4px;height:150px;position:relative;z-index:1}
+  .bars .b{flex:1;min-width:0;background:var(--surface-2);border-radius:3px 3px 0 0;position:relative;transition:background .15s}
+  .bars .b > i{position:absolute;inset:auto 0 0 0;background:var(--accent);border-radius:3px 3px 0 0;display:block;min-height:2px}
+  .bars .b.today > i{background:var(--ok)}
+  .bars .b > u{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.66rem;font-family:var(--mono);color:var(--ink-2);font-style:normal;margin-bottom:2px;opacity:0;transition:opacity .12s;white-space:nowrap}
+  .bars .b:hover > u,.bars .b.peak > u{opacity:1}
+  .bars .b:hover{background:var(--accent-soft)}
+  .bars .b::after{content:attr(data-d);position:absolute;top:100%;left:50%;transform:translateX(-50%);font-size:.6rem;font-family:var(--mono);color:var(--ink-3);margin-top:4px;opacity:0}
+  .bars .b.tick::after{opacity:1}
+  .axis{display:flex;justify-content:space-between;margin-top:1.4rem;font-size:.7rem;color:var(--ink-3);font-family:var(--mono)}
+
+  /* downloads horizontal bars */
+  .dl{display:grid;gap:1rem}
+  .dl .row{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .dl .name{font-family:var(--mono);font-size:.82rem;color:var(--ink);word-break:break-all}
+  .dl .track{position:relative;height:30px;background:var(--surface-2);border-radius:8px;overflow:hidden}
+  .dl .fill{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:8px;min-width:2px;display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem}
+  .dl .fill b{color:#fff;font-family:var(--mono);font-size:.82rem}
+  .dl .meta{font-size:.74rem;color:var(--ink-3);font-family:var(--mono)}
+  .dl .meta b{color:var(--ink-2)}
+
   .foot{font-size:.78rem;color:var(--ink-3);font-family:var(--mono);display:flex;flex-wrap:wrap;gap:.4rem 1rem;justify-content:space-between}
   [hidden]{display:none!important}
 </style>
 </head>
 <body>
 
-<!-- 로그인 게이트 -->
 <div class="gate" id="gate">
   <h1>관리자 로그인</h1>
   <label for="pw">비밀번호</label>
@@ -74,7 +89,6 @@
   <div class="err" id="err"></div>
 </div>
 
-<!-- 대시보드 -->
 <div class="wrap" id="dash" hidden>
   <div class="top">
     <div>
@@ -88,22 +102,27 @@
     <div class="kpi"><div class="label">누적 페이지뷰</div><div class="num" id="k-total">–</div><div class="sub" id="k-total-sub"></div></div>
     <div class="kpi"><div class="label">오늘</div><div class="num" id="k-today">–</div><div class="sub">자정(UTC) 기준</div></div>
     <div class="kpi"><div class="label">최근 7일</div><div class="num" id="k-7">–</div><div class="sub" id="k-7-sub"></div></div>
-    <div class="kpi"><div class="label">다운로드 총합</div><div class="num" id="k-dl">–</div><div class="sub">GitHub Releases 실제 수</div></div>
+    <div class="kpi"><div class="label">다운로드 총합</div><div class="num" id="k-dl">–</div><div class="sub">실제 내려받기 합계</div></div>
   </div>
 
   <div class="panel">
-    <h2>일자별 페이지뷰 · 최근 30일</h2>
-    <div class="bars" id="bars"></div>
+    <h2>일자별 페이지뷰</h2>
+    <div class="cap" id="daily-cap">최근 30일</div>
+    <div class="chart" id="chart">
+      <span class="ymax" id="y-max">0</span>
+      <span class="ymid" id="y-mid">0</span>
+      <div class="grid-line" style="top:0"></div>
+      <div class="grid-line" style="top:50%"></div>
+      <div class="bars" id="bars"></div>
+    </div>
     <div class="axis"><span id="ax-from"></span><span id="ax-to"></span></div>
   </div>
 
   <div class="panel">
     <h2>도구별 다운로드</h2>
-    <table>
-      <thead><tr><th>파일</th><th style="text-align:right">사이트 클릭</th><th style="text-align:right">실제 다운로드</th></tr></thead>
-      <tbody id="dl-body"></tbody>
-    </table>
-    <p class="muted" id="dl-note" style="margin-top:.8rem"></p>
+    <div class="cap">막대 = 실제 내려받기 수 · 괄호 = 이 사이트에서 받기 버튼 누른 횟수</div>
+    <div class="dl" id="dl"></div>
+    <p class="muted" id="dl-note" style="margin-top:1rem"></p>
   </div>
 
   <div class="foot">
@@ -116,7 +135,6 @@
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var KEY = "lxp-admin-pw";
-
   function num(n) { return (n == null ? 0 : n).toLocaleString("en-US"); }
 
   async function load(pw) {
@@ -125,101 +143,104 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pw: pw })
     });
-    if (r.status === 401) { throw new Error("비밀번호가 틀립니다."); }
+    if (r.status === 401) throw new Error("비밀번호가 틀립니다.");
     if (!r.ok) {
-      var t = "";
-      try { t = (await r.json()).message || ""; } catch (e) {}
+      var t = ""; try { t = (await r.json()).message || ""; } catch (e) {}
       throw new Error("서버 오류 (" + r.status + ") " + t);
     }
     return r.json();
   }
 
+  function renderDaily(days) {
+    var todayKey = new Date().toISOString().slice(0, 10);
+    var end = new Date(todayKey + "T00:00:00Z");
+    var span = [];
+    for (var i = 29; i >= 0; i--) { var d = new Date(end); d.setUTCDate(d.getUTCDate() - i); span.push(d.toISOString().slice(0, 10)); }
+    var vals = span.map(function (k) { return days[k] || 0; });
+    var max = Math.max.apply(null, vals);
+    var scaleMax = Math.max(4, Math.ceil(max / 4) * 4);
+    $("y-max").textContent = scaleMax;
+    $("y-mid").textContent = Math.round(scaleMax / 2);
+    var peakIdx = vals.indexOf(max);
+
+    var bars = $("bars"); bars.innerHTML = "";
+    span.forEach(function (k, idx) {
+      var v = vals[idx];
+      var b = document.createElement("div");
+      b.className = "b" + (k === todayKey ? " today" : "") + (idx % 5 === 0 ? " tick" : "") + (v > 0 && idx === peakIdx ? " peak" : "");
+      b.setAttribute("data-d", k.slice(5));
+      var i = document.createElement("i"); i.style.height = (v / scaleMax * 100) + "%";
+      var u = document.createElement("u"); u.textContent = v;
+      b.appendChild(u); b.appendChild(i);
+      b.title = k + " · " + v + "회";
+      bars.appendChild(b);
+    });
+    $("ax-from").textContent = span[0];
+    $("ax-to").textContent = span[span.length - 1] + " (오늘)";
+  }
+
+  function renderDownloads(clicks, releases, err) {
+    var relByName = {};
+    (releases || []).forEach(function (x) { relByName[x.name] = (relByName[x.name] || 0) + (x.downloads || 0); });
+    var names = {};
+    Object.keys(clicks || {}).forEach(function (n) { names[n] = 1; });
+    Object.keys(relByName).forEach(function (n) { names[n] = 1; });
+    var list = Object.keys(names).sort();
+    var maxDl = 1;
+    list.forEach(function (n) { maxDl = Math.max(maxDl, relByName[n] || 0, clicks[n] || 0); });
+
+    var wrap = $("dl"); wrap.innerHTML = "";
+    if (!list.length) { wrap.innerHTML = '<p class="muted">아직 데이터 없음</p>'; }
+    list.forEach(function (n) {
+      var real = relByName[n];
+      var clk = clicks[n] || 0;
+      var barVal = (real != null ? real : clk);
+      var row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML =
+        '<span class="name">' + n + '</span>' +
+        '<div class="track"><div class="fill" style="width:' + Math.max(4, barVal / maxDl * 100) + '%"><b>' + num(barVal) + '</b></div></div>' +
+        '<span class="meta">사이트 클릭 <b>' + num(clk) + '</b>' +
+        (real == null ? ' · 실제 다운로드 집계 없음(사이트 직접 제공)' : '') + '</span>';
+      wrap.appendChild(row);
+    });
+    $("dl-note").textContent = err
+      ? ("실제 다운로드 수 조회 실패: " + err)
+      : "‘실제 다운로드’는 GitHub Releases가 집계한 수입니다. 사이트에서 직접 제공하는 파일은 클릭 수만 집계됩니다.";
+  }
+
   function render(d) {
     var s = d.stats || { total: 0, days: {}, clicks: {} };
     var days = s.days || {};
-
-    // KPI
     var todayKey = new Date().toISOString().slice(0, 10);
     var keys = Object.keys(days).sort();
-    var last30 = keys.slice(-30);
     var sum = function (arr) { return arr.reduce(function (a, k) { return a + (days[k] || 0); }, 0); };
-    var last7keys = keys.slice(-7);
+    var last7 = keys.slice(-7);
 
     $("k-total").textContent = num(s.total);
     $("k-total-sub").textContent = s.firstAt ? (s.firstAt.slice(0, 10) + " 부터") : "";
     $("k-today").textContent = num(days[todayKey] || 0);
-    $("k-7").textContent = num(sum(last7keys));
-    $("k-7-sub").textContent = "하루 평균 " + num(Math.round(sum(last7keys) / 7));
+    $("k-7").textContent = num(sum(last7));
+    $("k-7-sub").textContent = "하루 평균 " + num(Math.round(sum(last7) / 7));
 
-    // 다운로드 총합 (GitHub Releases)
-    var rel = d.releases || [];
-    var relTotal = rel.reduce(function (a, x) { return a + (x.downloads || 0); }, 0);
+    var relTotal = (d.releases || []).reduce(function (a, x) { return a + (x.downloads || 0); }, 0);
     $("k-dl").textContent = num(relTotal);
 
-    // 일자별 막대 (최근 30일, 빈 날짜 채움)
-    var bars = $("bars");
-    bars.innerHTML = "";
-    var span = [];
-    var end = new Date(todayKey + "T00:00:00Z");
-    for (var i = 29; i >= 0; i--) {
-      var dt = new Date(end); dt.setUTCDate(dt.getUTCDate() - i);
-      span.push(dt.toISOString().slice(0, 10));
-    }
-    var max = Math.max(1, Math.max.apply(null, span.map(function (k) { return days[k] || 0; })));
-    span.forEach(function (k) {
-      var v = days[k] || 0;
-      var b = document.createElement("div");
-      b.className = "b";
-      b.setAttribute("data-t", k + " · " + v);
-      var i = document.createElement("i");
-      i.style.height = (v / max * 100) + "%";
-      b.appendChild(i);
-      bars.appendChild(b);
-    });
-    $("ax-from").textContent = span[0];
-    $("ax-to").textContent = span[span.length - 1];
-    $("range").textContent = (s.updatedAt ? "마지막 집계 " + s.updatedAt.replace("T", " ").slice(0, 16) + " UTC" : "");
+    renderDaily(days);
+    renderDownloads(s.clicks || {}, d.releases, d.releasesError);
 
-    // 도구별 다운로드 표: asset 합집합
-    var clicks = s.clicks || {};
-    var relByName = {};
-    rel.forEach(function (x) { relByName[x.name] = (relByName[x.name] || 0) + (x.downloads || 0); });
-    var names = {};
-    Object.keys(clicks).forEach(function (n) { names[n] = 1; });
-    Object.keys(relByName).forEach(function (n) { names[n] = 1; });
-    var body = $("dl-body");
-    body.innerHTML = "";
-    var list = Object.keys(names).sort();
-    if (!list.length) {
-      body.innerHTML = '<tr><td class="name" colspan="3" style="color:var(--ink-3)">아직 데이터 없음</td></tr>';
-    }
-    list.forEach(function (n) {
-      var tr = document.createElement("tr");
-      tr.innerHTML =
-        '<td class="name">' + n + "</td>" +
-        '<td class="n">' + num(clicks[n] || 0) + "</td>" +
-        '<td class="n">' + (relByName[n] != null ? num(relByName[n]) : "–") + "</td>";
-      body.appendChild(tr);
-    });
-    $("dl-note").textContent = d.releasesError
-      ? ("실제 다운로드 수 조회 실패: " + d.releasesError)
-      : "‘사이트 클릭’은 이 사이트의 받기 버튼 누른 횟수, ‘실제 다운로드’는 GitHub가 집계한 파일 내려받기 횟수입니다.";
-
+    $("range").textContent = s.updatedAt ? ("마지막 집계 " + s.updatedAt.replace("T", " ").slice(0, 16) + " UTC") : "집계 시작 전";
     $("f-repo").textContent = "repo: " + (d.repo || "");
     $("f-updated").textContent = "조회 " + (d.now || "").replace("T", " ").slice(0, 19) + " UTC";
   }
 
-  function show(dash) {
-    $("gate").hidden = dash;
-    $("dash").hidden = !dash;
-  }
+  function show(dash) { $("gate").hidden = dash; $("dash").hidden = !dash; }
 
   async function attempt(pw, fromStore) {
     try {
       var d = await load(pw);
       try { sessionStorage.setItem(KEY, pw); } catch (e) {}
-      render(d);
-      show(true);
+      render(d); show(true);
     } catch (e) {
       if (fromStore) { try { sessionStorage.removeItem(KEY); } catch (x) {} return; }
       $("err").textContent = e.message || String(e);

@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LXP 툴킷</title>
-<meta name="description" content="한국항공대 LXP 강의를 위한 개인용 도구 두 가지 — 강의 영상 다운로더와 새 강의·공지 알림." />
+<meta name="description" content="한국항공대 LXP 강의를 위한 개인용 도구 — 강의 영상 다운로더, 새 강의·공지 알림, 동영상 진도 현황." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700&display=swap" />
@@ -12,21 +12,20 @@
 <!--
   LXP 툴킷 — 레이어형 배포 페이지 (Cloudflare Pages 정적 사이트)
   ================================================================
-  화면 구조 (해시 라우팅, 공유 가능):
-    #/                    홈 — 도구 2개
-    #/downloader          강의 다운로더 허브 → [설치] / [사용법]
-    #/downloader/install  다운로드 + 4단계 설치 (한 창)
-    #/downloader/usage    작동 방식 · 주의사항
-    #/alarm               공지 알림 허브
-    #/alarm/install       다운로드 + 설치.bat 4단계 (한 창)
-    #/alarm/usage         알림 예시 · 주의사항
+  화면 (해시 라우팅, 공유 가능):
+    #/  홈(도구 3개)
+    #/downloader  /install  /usage   강의 다운로더
+    #/alarm       /install  /usage   새 강의·공지 알림
+    #/progress    /install  /usage   동영상 진도 현황
 
-  스크린샷 교체 자리 (<figure id="...">):
-    shot-dl-1..4, shot-dl-run   /  shot-al-1..4, shot-al-run
-    <svg>...</svg> 를 <img src alt> 로 바꾸면 됨. .figure img 스타일 이미 있음.
+  스크린샷:
+    다운로더/알림 = 실제 캡처(assets/*.png, 개인정보 블러). 진도 현황 = SVG 임시(캡처 예정).
+    교체 시 <figure> 안의 <svg> 또는 <img> 만 바꾸면 됨.
 
-  다운로드 링크: 아래 <script> 의  var GH_USER = "kjh01140"  (본인 GitHub 아이디)
-  방문/다운로드 집계: 페이지 하단 트래킹 <script> → /api/hit → 관리자 화면은 /admin
+  다운로드:
+    downloader/alarm  → GitHub Releases (아래 <script> 의 GH_USER/GH_REPO)
+    progress          → data-local 속성 → 사이트에 올린 /LXP-Progress-Dashboard.zip 직접 제공
+  방문/다운로드 집계: 페이지 하단 트래킹 <script> → /api/hit,  관리자 화면 /admin
 -->
 
 <style>
@@ -43,6 +42,8 @@
     --accent-ink: #ffffff;
     --alert: #d9791f;
     --alert-soft: #fbeede;
+    --prog: #0d8f80;
+    --prog-soft: #d8efec;
     --shadow-sm: 0 1px 2px rgba(20, 22, 28, .05);
     --shadow-lg: 0 1px 2px rgba(20, 22, 28, .04), 0 18px 44px -16px rgba(20, 22, 28, .16);
     --maxw: 1000px;
@@ -57,6 +58,7 @@
       --ink: #eef1f5; --ink-2: #a3accb; --ink-3: #6c7686; --line: #262c36;
       --accent: #6b9bff; --accent-soft: #17233d; --accent-ink: #0b0d11;
       --alert: #eaa059; --alert-soft: #2c2114;
+      --prog: #45c8b8; --prog-soft: #10302c;
       --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
       --shadow-lg: 0 1px 2px rgba(0,0,0,.3), 0 20px 50px -18px rgba(0,0,0,.65);
       color-scheme: dark;
@@ -67,6 +69,7 @@
     --ink: #eef1f5; --ink-2: #a3accb; --ink-3: #6c7686; --line: #262c36;
     --accent: #6b9bff; --accent-soft: #17233d; --accent-ink: #0b0d11;
     --alert: #eaa059; --alert-soft: #2c2114;
+    --prog: #45c8b8; --prog-soft: #10302c;
     --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
     --shadow-lg: 0 1px 2px rgba(0,0,0,.3), 0 20px 50px -18px rgba(0,0,0,.65);
     color-scheme: dark;
@@ -102,6 +105,7 @@
   .brand { display: inline-flex; align-items: center; gap: .55rem; text-decoration: none; font-family: var(--font-mono); font-weight: 700; font-size: 1rem; color: var(--ink); }
   .brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); transition: background .3s, box-shadow .3s; }
   body[data-tool="alarm"] .brand .dot { background: var(--alert); box-shadow: 0 0 0 4px var(--alert-soft); }
+  body[data-tool="progress"] .brand .dot { background: var(--prog); box-shadow: 0 0 0 4px var(--prog-soft); }
   .theme-btn { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); cursor: pointer; }
   .theme-btn:hover { color: var(--ink); border-color: var(--ink-3); }
   .theme-btn svg { width: 17px; height: 17px; }
@@ -133,7 +137,7 @@
   .home .sub { margin-top: 1.1rem; color: var(--ink-2); font-size: clamp(1rem, 2.2vw, 1.2rem); max-width: 40ch; }
 
   .tiles { display: grid; gap: 1rem; margin-top: 2.6rem; grid-template-columns: 1fr; }
-  @media (min-width: 720px) { .tiles { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 760px) { .tiles { grid-template-columns: repeat(3, 1fr); } }
   .tile {
     display: flex; flex-direction: column; gap: .85rem;
     padding: 1.6rem; border-radius: 18px; text-decoration: none; color: inherit;
@@ -142,27 +146,32 @@
   }
   .tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
   .tile.alarm:hover { border-color: color-mix(in srgb, var(--alert) 35%, var(--line)); }
+  .tile.progress:hover { border-color: color-mix(in srgb, var(--prog) 35%, var(--line)); }
   @media (prefers-reduced-motion: reduce) { .tile:hover, .card:hover, .back:hover { transform: none; } }
   .tile .ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
   .tile.alarm .ic { background: var(--alert-soft); color: var(--alert); }
+  .tile.progress .ic { background: var(--prog-soft); color: var(--prog); }
   .tile .ic svg { width: 22px; height: 22px; }
   .tile .k { font-family: var(--font-mono); font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
   .tile h3 { font-size: 1.3rem; }
   .tile p { color: var(--ink-2); font-size: .95rem; }
   .tile .arrow { margin-top: .3rem; display: inline-flex; align-items: center; gap: .4rem; color: var(--accent); font-size: .88rem; font-weight: 500; }
   .tile.alarm .arrow { color: var(--alert); }
+  .tile.progress .arrow { color: var(--prog); }
   .tile .arrow svg { width: 14px; height: 14px; transition: transform .2s; }
   .tile:hover .arrow svg { transform: translateX(3px); }
 
   /* ---------- tool hub ---------- */
   .hub .eyebrow { font-family: var(--font-mono); font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .9rem; }
   body[data-tool="alarm"] .hub .eyebrow { color: var(--alert); }
+  body[data-tool="progress"] .hub .eyebrow { color: var(--prog); }
   .hub h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); }
   .hub .def { margin-top: .9rem; color: var(--ink-2); font-size: clamp(1rem, 2.2vw, 1.18rem); max-width: 40ch; }
   .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.6rem; }
   .chip { display: inline-flex; align-items: center; gap: .45rem; padding: .42rem .8rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: .84rem; color: var(--ink-2); }
   .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
   body[data-tool="alarm"] .chip::before { background: var(--alert); }
+  body[data-tool="progress"] .chip::before { background: var(--prog); }
 
   .choices { display: grid; gap: 1rem; margin-top: 2.4rem; grid-template-columns: 1fr; }
   @media (min-width: 640px) { .choices { grid-template-columns: 1fr 1fr; } }
@@ -174,6 +183,7 @@
   .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
   .card .ci { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
   body[data-tool="alarm"] .card .ci { background: var(--alert-soft); color: var(--alert); }
+  body[data-tool="progress"] .card .ci { background: var(--prog-soft); color: var(--prog); }
   .card .ci svg { width: 19px; height: 19px; }
   .card h3 { font-size: 1.12rem; }
   .card p { color: var(--ink-2); font-size: .9rem; }
@@ -190,6 +200,7 @@
     transition: transform .15s, box-shadow .2s;
   }
   body[data-tool="alarm"] .btn { background: var(--alert); }
+  body[data-tool="progress"] .btn { background: var(--prog); }
   .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
   @media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
   .btn svg { width: 17px; height: 17px; }
@@ -204,11 +215,14 @@
 
   .steps { display: grid; gap: .9rem; }
   .step { display: grid; grid-template-columns: 1fr; gap: 1rem; padding: 1.2rem; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
-  @media (min-width: 720px) { .step { grid-template-columns: 260px 1fr; align-items: center; gap: 1.8rem; padding: 1.3rem 1.5rem; } }
+  @media (min-width: 720px) { .step { grid-template-columns: 300px 1fr; align-items: center; gap: 1.8rem; padding: 1.3rem 1.5rem; } }
   .figure { margin: 0; border-radius: 11px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); aspect-ratio: 16 / 10; }
   .figure svg, .figure img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .figure.shot { aspect-ratio: auto; background: #0c0e13; display: grid; place-items: center; }
+  .figure.shot img { object-fit: contain; width: 100%; height: auto; max-height: 360px; }
   .step .n { font-family: var(--font-mono); font-size: .78rem; font-weight: 700; color: var(--accent); }
   body[data-tool="alarm"] .step .n { color: var(--alert); }
+  body[data-tool="progress"] .step .n { color: var(--prog); }
   .step h4 { margin: .25rem 0 .35rem; font-size: 1.05rem; }
   .step p { color: var(--ink-2); font-size: .92rem; }
   .copy-row { display: inline-flex; align-items: center; gap: .5rem; margin-top: .6rem; }
@@ -217,6 +231,7 @@
 
   .how { border-radius: 16px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); }
   .how svg, .how img { display: block; width: 100%; height: auto; }
+  .how img { max-height: 560px; object-fit: contain; background: #0c0e13; }
   .how figcaption { padding: .75rem 1rem; font-size: .8rem; color: var(--ink-3); font-family: var(--font-mono); border-top: 1px solid var(--line); }
 
   .flow { display: grid; gap: .6rem; margin-bottom: 1.6rem; }
@@ -251,7 +266,7 @@
     <canvas id="amb" aria-hidden="true"></canvas>
     <div class="home-inner">
       <h1>강의는 원래대로. 그 사이는 조금 더 편하게.</h1>
-      <p class="sub">한국항공대 LXP를 위해 직접 만든 도구 두 가지. 필요한 걸 고르세요.</p>
+      <p class="sub">한국항공대 LXP를 위해 직접 만든 도구 세 가지. 필요한 걸 고르세요.</p>
       <div class="tiles">
         <a class="tile" href="#/downloader">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M20 21H4"/></svg></span>
@@ -265,6 +280,13 @@
           <span class="k">02 · Windows 앱</span>
           <h3>새 강의 · 공지 알림</h3>
           <p>새 강의·자료·공지가 올라오면 Windows 알림.</p>
+          <span class="arrow">열기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="tile progress" href="#/progress">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-4"/></svg></span>
+          <span class="k">03 · 브라우저 확장</span>
+          <h3>동영상 진도 현황</h3>
+          <p>수강 중인 강의 영상의 완료·미완료를 마감 임박순으로.</p>
           <span class="arrow">열기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
       </div>
@@ -297,7 +319,7 @@
     </div>
   </section>
 
-  <!-- ============ DOWNLOADER INSTALL (download + steps) ============ -->
+  <!-- ============ DOWNLOADER INSTALL ============ -->
   <section class="screen" id="s-dl-install" data-screen hidden>
     <a class="back" href="#/downloader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>강의 다운로더</a>
     <div class="crumb"><a href="#/">홈</a><span class="sep">/</span><a href="#/downloader">강의 다운로더</a><span class="sep">/</span>설치</div>
@@ -330,56 +352,17 @@
         <div><span class="n">STEP 1</span><h4>폴더를 안 지울 곳에 둡니다</h4><p>압축을 풀어 문서 폴더처럼 오래 둘 위치로. 폴더를 지우거나 옮기면 확장이 사라집니다.</p></div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-dl-2">
-          <svg viewBox="0 0 320 200" role="img" aria-label="확장 프로그램 페이지에서 개발자 모드 켜기">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="28" y="30" width="264" height="140" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <rect x="28" y="30" width="264" height="30" rx="10" fill="var(--surface-2)"/>
-            <rect x="44" y="40" width="150" height="11" rx="5.5" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5"/>
-            <text x="52" y="49" font-family="Schibsted Grotesk, sans-serif" font-size="9" fill="var(--ink-3)">chrome://extensions</text>
-            <text x="44" y="86" font-family="IBM Plex Sans KR, sans-serif" font-size="12" font-weight="600" fill="var(--ink)">확장 프로그램</text>
-            <text x="196" y="86" font-family="IBM Plex Sans KR, sans-serif" font-size="10" fill="var(--ink-2)">개발자 모드</text>
-            <rect x="255" y="78" width="30" height="16" rx="8" fill="var(--accent)"/>
-            <circle cx="277" cy="86" r="6" fill="#fff"/>
-            <rect x="44" y="108" width="110" height="46" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.5"/>
-            <rect x="166" y="108" width="110" height="46" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <path d="M199 131h40M239 131l-6-5M239 131l-6 5" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </figure>
+        <figure class="figure shot" id="shot-dl-2"><img src="assets/dl-2.png" alt="크롬 chrome://extensions 페이지, 오른쪽 위 개발자 모드" loading="lazy" /></figure>
         <div><span class="n">STEP 2</span><h4><code>chrome://extensions</code> → 개발자 모드 ON</h4><p>주소창에 입력. 엣지는 <code>edge://extensions</code>. 오른쪽 위 “개발자 모드”를 켭니다.</p>
           <div class="copy-row"><code id="cp-1">chrome://extensions</code><button class="copy-btn" data-copy="#cp-1">복사</button></div>
         </div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-dl-3">
-          <svg viewBox="0 0 320 200" role="img" aria-label="압축해제된 확장 프로그램 로드로 폴더 선택">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="40" y="34" width="150" height="24" rx="7" fill="var(--accent)"/>
-            <text x="115" y="50" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif" font-size="10" font-weight="600" fill="#fff">압축해제된 확장 로드</text>
-            <rect x="66" y="74" width="188" height="96" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <g stroke="var(--ink-3)" stroke-width="1.6" fill="none"><path d="M82 108h150M82 126h150M82 144h110"/></g>
-            <path d="M78 102h20l6 8h30a5 5 0 0 1 5 5" stroke="var(--accent)" stroke-width="2" fill="var(--accent-soft)"/>
-            <circle cx="228" cy="148" r="13" fill="var(--accent)"/>
-            <path d="M222 148l4 4 8-8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-        </figure>
+        <figure class="figure shot" id="shot-dl-3"><img src="assets/dl-3.png" alt="폴더 선택 창에서 압축 푼 폴더 고르기" loading="lazy" /></figure>
         <div><span class="n">STEP 3</span><h4>“압축해제된 확장 프로그램 로드” → 폴더 선택</h4><p><code>manifest.json</code> 이 있는 폴더를 고릅니다. 목록에 “LXP 강의 다운로더”가 뜨면 끝.</p></div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-dl-4">
-          <svg viewBox="0 0 320 200" role="img" aria-label="툴바에 확장 아이콘 고정">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="40" y="52" width="240" height="34" rx="9" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <circle cx="214" cy="69" r="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.5"/>
-            <path d="M210 69h8M214 65v8" stroke="var(--ink-3)" stroke-width="1.6" stroke-linecap="round"/>
-            <circle cx="244" cy="69" r="11" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
-            <path d="M244 64v7m0 0 3-3m-3 3-3-3" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <rect x="188" y="98" width="112" height="70" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <rect x="200" y="110" width="88" height="9" rx="4.5" fill="var(--ink-3)" opacity=".5"/>
-            <rect x="200" y="126" width="88" height="22" rx="6" fill="var(--accent)"/>
-            <text x="244" y="141" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif" font-size="9" font-weight="600" fill="#fff">다운로드 패널 열기</text>
-          </svg>
-        </figure>
+        <figure class="figure shot" id="shot-dl-4"><img src="assets/dl-4.png" alt="툴바 확장 메뉴에서 다운로더 아이콘 고정" loading="lazy" /></figure>
         <div><span class="n">STEP 4 · 선택</span><h4>툴바 퍼즐 아이콘에서 고정</h4><p>자주 쓰면 편합니다. 켤 때마다 뜨는 “개발자 모드 확장” 안내는 닫아도 됩니다.</p></div>
       </div>
     </div>
@@ -402,31 +385,8 @@
     </ol>
 
     <figure class="how" id="shot-dl-run">
-      <svg viewBox="0 0 900 300" role="img" aria-label="강의 영상 재생 화면과 우상단 다운로드 패널">
-        <rect width="900" height="300" fill="var(--surface-2)"/>
-        <rect x="40" y="34" width="820" height="232" rx="14" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-        <rect x="40" y="34" width="820" height="34" rx="14" fill="var(--surface-2)"/>
-        <circle cx="62" cy="51" r="4" fill="var(--ink-3)"/><circle cx="78" cy="51" r="4" fill="var(--ink-3)"/><circle cx="94" cy="51" r="4" fill="var(--ink-3)"/>
-        <rect x="120" y="44" width="360" height="14" rx="7" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5"/>
-        <text x="132" y="55" font-family="Schibsted Grotesk, sans-serif" font-size="10" fill="var(--ink-3)">lxp.kau.ac.kr · 강의 영상</text>
-        <rect x="66" y="92" width="470" height="150" rx="10" fill="var(--ink)" opacity=".9"/>
-        <path d="M283 150l30 17-30 17z" fill="#fff" opacity=".9"/>
-        <rect x="66" y="230" width="470" height="4" rx="2" fill="#fff" opacity=".25"/>
-        <rect x="66" y="230" width="180" height="4" rx="2" fill="var(--accent)"/>
-        <rect x="566" y="92" width="266" height="150" rx="12" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
-        <text x="584" y="115" font-family="IBM Plex Sans KR, sans-serif" font-size="12" font-weight="600" fill="var(--ink)">감지된 스트림 1개</text>
-        <rect x="584" y="126" width="92" height="16" rx="8" fill="var(--accent-soft)"/>
-        <text x="630" y="138" text-anchor="middle" font-family="Schibsted Grotesk, sans-serif" font-size="9" font-weight="600" fill="var(--accent)">HLS 재생목록</text>
-        <rect x="584" y="150" width="230" height="16" rx="5" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
-        <text x="592" y="162" font-family="Schibsted Grotesk, sans-serif" font-size="9" fill="var(--ink-2)">3주차_인터럽트개요.ts</text>
-        <rect x="584" y="174" width="230" height="24" rx="7" fill="var(--accent)"/>
-        <text x="699" y="190" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif" font-size="10" font-weight="600" fill="#fff">이 위치에 다운로드</text>
-        <rect x="584" y="208" width="230" height="6" rx="3" fill="var(--surface-2)"/>
-        <rect x="584" y="208" width="150" height="6" rx="3" fill="var(--accent)"/>
-        <text x="584" y="228" font-family="Schibsted Grotesk, sans-serif" font-size="9" fill="var(--ink-3)">세그먼트 132 / 198 …</text>
-        <path d="M536 167h24" stroke="var(--ink-3)" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 5"/>
-      </svg>
-      <figcaption>재생 → 우상단 패널 자동 → 폴더 한 번 지정 → “이 위치에 다운로드”</figcaption>
+      <img src="assets/dl-run.png" alt="다운로더 패널에서 감지된 스트림과 저장 버튼" loading="lazy" />
+      <figcaption>재생 → 우상단 패널 → 폴더 한 번 지정 → “이 위치에 다운로드”</figcaption>
     </figure>
 
     <div class="notes">
@@ -481,64 +441,19 @@
     <div class="block-label">압축 해제 후, 더블클릭 → 4가지 입력</div>
     <div class="steps">
       <div class="step">
-        <figure class="figure" id="shot-al-1">
-          <svg viewBox="0 0 320 200" role="img" aria-label="압축을 푼 폴더 내용">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="46" y="32" width="228" height="136" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <rect x="62" y="46" width="196" height="22" rx="6" fill="var(--alert-soft)"/>
-            <g font-family="Schibsted Grotesk, sans-serif" font-size="10" fill="var(--ink-2)">
-              <text x="74" y="61" fill="var(--alert)" font-weight="700">설치.bat</text>
-              <text x="74" y="90">제거.bat</text><text x="74" y="110">테스트.bat</text>
-              <text x="74" y="130">config.ini</text><text x="74" y="150">사용법.txt</text>
-            </g>
-          </svg>
-        </figure>
+        <figure class="figure shot" id="shot-al-1"><img src="assets/al-1.png" alt="압축을 푼 폴더 안의 파일 목록" loading="lazy" /></figure>
         <div><span class="n">STEP 1</span><h4>압축을 풀어 아무 데나</h4><p>바탕화면·문서 폴더 어디든. 옮기려면 <code>제거.bat</code> 후 다시 설치.</p></div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-al-2">
-          <svg viewBox="0 0 320 200" role="img" aria-label="SmartScreen 경고에서 추가 정보 후 실행">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="44" y="36" width="232" height="128" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <text x="60" y="62" font-family="IBM Plex Sans KR, sans-serif" font-size="12" font-weight="600" fill="var(--ink)">Windows의 PC 보호</text>
-            <path d="M60 76h200M60 92h150" stroke="var(--ink-3)" stroke-width="1.6" stroke-linecap="round"/>
-            <text x="60" y="120" font-family="IBM Plex Sans KR, sans-serif" font-size="10" fill="var(--accent)" font-weight="600">추가 정보</text>
-            <rect x="176" y="128" width="84" height="22" rx="6" fill="var(--alert)"/>
-            <text x="218" y="143" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif" font-size="10" font-weight="600" fill="#fff">실행</text>
-          </svg>
-        </figure>
+        <figure class="figure shot" id="shot-al-2"><img src="assets/al-2.png" alt="설치.bat 실행 시 나오는 Windows 보안 경고" loading="lazy" /></figure>
         <div><span class="n">STEP 2</span><h4><code>설치.bat</code> 더블클릭</h4><p>파란 경고창은 <strong>“추가 정보 → 실행”</strong>. 서명 안 된 개인 프로그램이라 뜨는 정상 경고.</p></div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-al-3">
-          <svg viewBox="0 0 320 200" role="img" aria-label="검은 창에 학번, 비밀번호, 학기, 확인 주기 입력">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="40" y="34" width="240" height="132" rx="8" fill="#0b0d11" stroke="var(--line)" stroke-width="2"/>
-            <g font-family="Schibsted Grotesk, monospace" font-size="10" fill="#c9d2e0">
-              <text x="56" y="58">id (학번)  : <tspan fill="#6b9bff">2022xxxxx_</tspan></text>
-              <text x="56" y="80">password   : <tspan fill="#6b7686">********</tspan></text>
-              <text x="56" y="102">학기        : <tspan fill="#6b9bff">2026-2</tspan></text>
-              <text x="56" y="124">확인 주기   : <tspan fill="#6b9bff">30m</tspan></text>
-              <text x="56" y="150" fill="#7fd0a3">설치 완료!</text>
-            </g>
-          </svg>
-        </figure>
+        <figure class="figure shot" id="shot-al-3"><img src="assets/al-3.png" alt="설치 창에 아이디·비밀번호·학기·주기 입력 (개인정보 가림)" loading="lazy" /></figure>
         <div><span class="n">STEP 3</span><h4>네 가지 입력</h4><p>LXP 아이디·비밀번호, 학기(<code>2026-2</code>), 확인 주기(<code>30m</code>). 비밀번호는 화면에 안 보이는 게 정상.</p></div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-al-4">
-          <svg viewBox="0 0 320 200" role="img" aria-label="약 1분 뒤 테스트 알림">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <circle cx="60" cy="66" r="4" fill="var(--alert)"/>
-            <path d="M74 66h150" stroke="var(--line)" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>
-            <text x="56" y="92" font-family="Schibsted Grotesk, monospace" font-size="10" fill="var(--ink-3)">= 1 min</text>
-            <rect x="150" y="116" width="150" height="56" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <rect x="162" y="128" width="20" height="20" rx="5" fill="var(--alert-soft)"/>
-            <path d="M167 138l4 4 6-7" stroke="var(--alert)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <text x="192" y="136" font-family="IBM Plex Sans KR, sans-serif" font-size="10" font-weight="600" fill="var(--ink)">LXP Watcher</text>
-            <text x="192" y="154" font-family="IBM Plex Sans KR, sans-serif" font-size="9" fill="var(--ink-2)">테스트 알림 · 감시 시작</text>
-          </svg>
-        </figure>
+        <figure class="figure shot" id="shot-al-4"><img src="assets/al-4.png" alt="설치 완료 후 뜨는 감시 시작 알림" loading="lazy" /></figure>
         <div><span class="n">STEP 4</span><h4>“설치 완료!” → 창 닫기</h4><p>약 1분 뒤 테스트 알림이 뜨면 정상. 이후 주기마다 자동. 다시 확인은 <code>테스트.bat</code>.</p></div>
       </div>
     </div>
@@ -590,12 +505,172 @@
     </div>
   </section>
 
+  <!-- ============ PROGRESS HUB ============ -->
+  <section class="screen hub" id="s-pg" data-screen hidden>
+    <a class="back" href="#/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>홈</a>
+    <span class="eyebrow">03 · Chrome · Edge 확장</span>
+    <h1 tabindex="-1">동영상 진도 현황</h1>
+    <p class="def">LXP에 로그인된 상태에서, 이번 학기 강의 영상의 <code>완료 / 미완료</code>를 마감 임박순으로 오른쪽 사이드 패널에 정리해 보여줍니다.</p>
+    <div class="chips">
+      <span class="chip">마감 임박순 정렬</span>
+      <span class="chip">완료 / 미완료 표시</span>
+      <span class="chip">다 본 항목 숨기기</span>
+      <span class="chip">로그인 그대로 사용</span>
+    </div>
+    <div class="choices">
+      <a class="card" href="#/progress/install">
+        <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M20 21H4"/></svg></span>
+        <h3>설치</h3>
+        <p>다운로드 + 4단계 설치, 강의 다운로더와 동일</p>
+      </a>
+      <a class="card" href="#/progress/usage">
+        <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-4"/></svg></span>
+        <h3>사용법</h3>
+        <p>패널 여는 법과 주의사항</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ PROGRESS INSTALL ============ -->
+  <section class="screen" id="s-pg-install" data-screen hidden>
+    <a class="back" href="#/progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>진도 현황</a>
+    <div class="crumb"><a href="#/">홈</a><span class="sep">/</span><a href="#/progress">진도 현황</a><span class="sep">/</span>설치</div>
+    <h2 class="h2row" tabindex="-1">설치</h2>
+
+    <div class="get-card">
+      <div class="meta">
+        <div class="t">확장 폴더 내려받기</div>
+        <div class="f">LXP-Progress-Dashboard.zip · ~10 KB</div>
+      </div>
+      <a class="btn js-dl" data-asset="LXP-Progress-Dashboard.zip" data-local="1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M20 21H4"/></svg>
+        <span class="lbl">받기</span> <span class="sz">ZIP</span>
+      </a>
+    </div>
+
+    <div class="block-label">강의 다운로더와 똑같은 방식 · 약 1분</div>
+    <div class="steps">
+      <div class="step">
+        <figure class="figure" id="shot-pg-1">
+          <svg viewBox="0 0 320 200" role="img" aria-label="폴더를 안전한 위치에 두기">
+            <rect width="320" height="200" fill="var(--surface-2)"/>
+            <rect x="52" y="46" width="216" height="118" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+            <path d="M74 84h44l10 12h58a8 8 0 0 1 8 8v40a8 8 0 0 1-8 8H74a8 8 0 0 1-8-8V92a8 8 0 0 1 8-8z" fill="var(--prog-soft)" stroke="var(--prog)" stroke-width="2"/>
+            <circle cx="212" cy="120" r="15" fill="var(--surface)" stroke="var(--prog)" stroke-width="2"/>
+            <path d="M206 120h12M212 114v12" stroke="var(--prog)" stroke-width="2" stroke-linecap="round"/>
+            <text x="160" y="182" text-anchor="middle" font-family="Schibsted Grotesk, sans-serif" font-size="11" fill="var(--ink-3)">Documents / LXP-Progress-Dashboard</text>
+          </svg>
+        </figure>
+        <div><span class="n">STEP 1</span><h4>폴더를 안 지울 곳에 둡니다</h4><p>압축을 풀어 오래 둘 위치로. 폴더를 지우거나 옮기면 확장이 사라집니다.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure" id="shot-pg-2">
+          <svg viewBox="0 0 320 200" role="img" aria-label="확장 프로그램 페이지에서 개발자 모드 켜기">
+            <rect width="320" height="200" fill="var(--surface-2)"/>
+            <rect x="28" y="30" width="264" height="140" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+            <rect x="28" y="30" width="264" height="30" rx="10" fill="var(--surface-2)"/>
+            <text x="52" y="49" font-family="Schibsted Grotesk, sans-serif" font-size="9" fill="var(--ink-3)">chrome://extensions</text>
+            <text x="44" y="86" font-family="IBM Plex Sans KR, sans-serif" font-size="12" font-weight="600" fill="var(--ink)">확장 프로그램</text>
+            <text x="196" y="86" font-family="IBM Plex Sans KR, sans-serif" font-size="10" fill="var(--ink-2)">개발자 모드</text>
+            <rect x="255" y="78" width="30" height="16" rx="8" fill="var(--prog)"/>
+            <circle cx="277" cy="86" r="6" fill="#fff"/>
+          </svg>
+        </figure>
+        <div><span class="n">STEP 2</span><h4><code>chrome://extensions</code> → 개발자 모드 ON</h4><p>주소창에 입력. 엣지는 <code>edge://extensions</code>.</p>
+          <div class="copy-row"><code id="cp-2">chrome://extensions</code><button class="copy-btn" data-copy="#cp-2">복사</button></div>
+        </div>
+      </div>
+      <div class="step">
+        <figure class="figure" id="shot-pg-3">
+          <svg viewBox="0 0 320 200" role="img" aria-label="압축해제된 확장 프로그램 로드로 폴더 선택">
+            <rect width="320" height="200" fill="var(--surface-2)"/>
+            <rect x="40" y="34" width="160" height="24" rx="7" fill="var(--prog)"/>
+            <text x="120" y="50" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif" font-size="10" font-weight="600" fill="#fff">압축해제된 확장 로드</text>
+            <rect x="66" y="74" width="188" height="96" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+            <g stroke="var(--ink-3)" stroke-width="1.6" fill="none"><path d="M82 108h150M82 126h150M82 144h110"/></g>
+            <circle cx="228" cy="148" r="13" fill="var(--prog)"/>
+            <path d="M222 148l4 4 8-8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </figure>
+        <div><span class="n">STEP 3</span><h4>“압축해제된 확장 프로그램 로드” → 폴더 선택</h4><p><code>manifest.json</code> 이 있는 폴더를 고릅니다. 목록에 “LXP 동영상 진도 현황”이 뜨면 끝.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure" id="shot-pg-4">
+          <svg viewBox="0 0 320 200" role="img" aria-label="툴바 아이콘 클릭으로 패널 열기">
+            <rect width="320" height="200" fill="var(--surface-2)"/>
+            <rect x="40" y="40" width="240" height="34" rx="9" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+            <circle cx="248" cy="57" r="11" fill="var(--prog-soft)" stroke="var(--prog)" stroke-width="2"/>
+            <path d="M243 57h10M248 52v10" stroke="var(--prog)" stroke-width="2" stroke-linecap="round"/>
+            <rect x="196" y="86" width="96" height="84" rx="10" fill="var(--surface)" stroke="var(--prog)" stroke-width="2"/>
+            <rect x="206" y="98" width="76" height="12" rx="4" fill="var(--prog-soft)"/>
+            <rect x="206" y="118" width="76" height="12" rx="4" fill="var(--surface-2)"/>
+            <rect x="206" y="138" width="76" height="12" rx="4" fill="var(--surface-2)"/>
+          </svg>
+        </figure>
+        <div><span class="n">STEP 4</span><h4>툴바 아이콘 클릭 → 오른쪽 패널</h4><p>LXP 페이지에서 확장 아이콘을 누르면 오른쪽에 진도 패널이 열립니다. 자주 쓰면 퍼즐 아이콘에서 고정.</p></div>
+      </div>
+    </div>
+    <div class="notes">
+      <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>위 그림은 안내용입니다. <strong>실제 화면 캡처는 곧 추가</strong>됩니다. 설치 절차는 강의 다운로더와 동일합니다.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ PROGRESS USAGE ============ -->
+  <section class="screen" id="s-pg-usage" data-screen hidden>
+    <a class="back" href="#/progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>진도 현황</a>
+    <div class="crumb"><a href="#/">홈</a><span class="sep">/</span><a href="#/progress">진도 현황</a><span class="sep">/</span>사용법</div>
+    <h2 class="h2row" tabindex="-1">사용법</h2>
+
+    <ol class="flow">
+      <li>브라우저에 <strong>LXP가 로그인된 상태</strong>로 LXP 아무 페이지나 엽니다.</li>
+      <li>툴바의 <strong>진도 현황 아이콘</strong>을 클릭하면 화면 오른쪽에 패널이 열립니다.</li>
+      <li>카드마다 <strong>과목 · 주차 · 마감일</strong>과 <strong>완료 / 미완료</strong>가 표시됩니다. 마감 임박순 정렬.</li>
+      <li>다 본 영상은 카드의 <strong>✕</strong> 로 목록에서 숨길 수 있습니다. “모두 표시”로 되돌리기.</li>
+    </ol>
+
+    <figure class="how" id="shot-pg-run">
+      <svg viewBox="0 0 900 340" role="img" aria-label="화면 오른쪽에 열린 진도 현황 패널 예시">
+        <rect width="900" height="340" fill="var(--surface-2)"/>
+        <rect x="40" y="34" width="560" height="272" rx="14" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+        <rect x="40" y="34" width="560" height="30" rx="14" fill="var(--surface-2)"/>
+        <text x="60" y="54" font-family="Schibsted Grotesk, sans-serif" font-size="10" fill="var(--ink-3)">lxp.kau.ac.kr</text>
+        <rect x="628" y="34" width="232" height="272" rx="12" fill="var(--surface)" stroke="var(--prog)" stroke-width="2"/>
+        <text x="646" y="58" font-family="IBM Plex Sans KR, sans-serif" font-size="12" font-weight="700" fill="var(--ink)">동영상 진도 현황</text>
+        <line x1="646" y1="68" x2="842" y2="68" stroke="var(--line)" stroke-width="1.5"/>
+        <g font-family="IBM Plex Sans KR, sans-serif">
+          <rect x="646" y="80" width="196" height="58" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
+          <text x="656" y="98" font-size="9" fill="var(--ink-3)">시스템 과목 · 3주차 · D-2</text>
+          <text x="656" y="114" font-size="10" font-weight="600" fill="var(--ink)">3주차 강의 영상</text>
+          <rect x="656" y="122" width="52" height="12" rx="6" fill="var(--alert-soft)"/>
+          <text x="682" y="131" text-anchor="middle" font-size="8" font-weight="700" fill="var(--alert)">미완료</text>
+          <rect x="646" y="146" width="196" height="58" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
+          <text x="656" y="164" font-size="9" fill="var(--ink-3)">전공 과목 · 2주차 · D-5</text>
+          <text x="656" y="180" font-size="10" font-weight="600" fill="var(--ink)">2주차 이론</text>
+          <rect x="656" y="188" width="44" height="12" rx="6" fill="var(--prog-soft)"/>
+          <text x="678" y="197" text-anchor="middle" font-size="8" font-weight="700" fill="var(--prog)">완료</text>
+          <rect x="646" y="212" width="196" height="52" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
+          <text x="656" y="230" font-size="9" fill="var(--ink-3)">교양 과목 · 4주차 · D-9</text>
+          <text x="656" y="246" font-size="10" font-weight="600" fill="var(--ink)">4주차 특강</text>
+          <rect x="656" y="252" width="52" height="12" rx="6" fill="var(--alert-soft)"/>
+          <text x="682" y="261" text-anchor="middle" font-size="8" font-weight="700" fill="var(--alert)">미완료</text>
+        </g>
+        <text x="646" y="288" font-family="Schibsted Grotesk, monospace" font-size="8" fill="var(--ink-3)">숨긴 항목 0개 · 모두 표시</text>
+      </svg>
+      <figcaption>임시 예시 — 실제 화면 캡처는 곧 추가됩니다.</figcaption>
+    </figure>
+
+    <div class="notes">
+      <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span><strong>로그인 정보를 따로 저장하지 않습니다.</strong> 이미 브라우저에 로그인된 LXP 세션을 그대로 씁니다. kau.ac.kr 하고만 통신.</span></div>
+      <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>완료 / 미완료는 LXP 온라인출석부 기준입니다. 소수점 진도율(%)은 표시하지 않습니다.</span></div>
+    </div>
+  </section>
+
 </main>
 
 <footer>
   <div class="in">
     <span>LXP 툴킷 · 한국항공대 LXP 사용자를 위한 개인용 유틸리티</span>
-    <span>다음: 스크롤 연동 3D 연출 · 실제 스크린샷 교체</span>
+    <span>다음: 진도 현황 실제 스크린샷 · 스크롤 연동 연출</span>
   </div>
 </footer>
 
@@ -624,8 +699,10 @@
     var ROUTES = {
       "": "s-home",
       "downloader": "s-dl", "downloader/install": "s-dl-install", "downloader/usage": "s-dl-usage",
-      "alarm": "s-al", "alarm/install": "s-al-install", "alarm/usage": "s-al-usage"
+      "alarm": "s-al", "alarm/install": "s-al-install", "alarm/usage": "s-al-usage",
+      "progress": "s-pg", "progress/install": "s-pg-install", "progress/usage": "s-pg-usage"
     };
+    var TOOLKEY = { downloader: "downloader", alarm: "alarm", progress: "progress" };
     var screens = Array.prototype.slice.call(document.querySelectorAll("[data-screen]"));
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var first = true;
@@ -636,7 +713,7 @@
     }
     function route() {
       var k = key(), id = ROUTES[k];
-      document.body.setAttribute("data-tool", k.split("/")[0] || "");
+      document.body.setAttribute("data-tool", TOOLKEY[k.split("/")[0]] || "");
       screens.forEach(function (s) {
         var on = s.id === id;
         s.hidden = !on;
@@ -654,14 +731,18 @@
     window.addEventListener("hashchange", route);
     route();
 
-    /* ---- GitHub Releases 다운로드 링크 자동 생성 ----
-       GH_USER 를 본인 GitHub 아이디로 바꾸면 두 다운로드 버튼이 켜집니다. */
+    /* ---- 다운로드 링크 ----
+       data-local 있으면 사이트에 올린 파일(/파일명) 직접 제공,
+       없으면 GitHub Releases (GH_USER/GH_REPO). */
     var GH_USER = "kjh01140";
     var GH_REPO = "lxp-toolkit";
     document.querySelectorAll(".js-dl").forEach(function (a) {
       var file = a.getAttribute("data-asset");
       var lbl = a.querySelector(".lbl");
-      if (!GH_USER || GH_USER === "OWNER") {
+      if (a.hasAttribute("data-local")) {
+        a.href = "/" + file;
+        a.setAttribute("rel", "noopener");
+      } else if (!GH_USER || GH_USER === "OWNER") {
         a.classList.add("is-pending");
         a.setAttribute("aria-disabled", "true");
         a.removeAttribute("href");
@@ -723,11 +804,7 @@
   })();
 </script>
 
-<!-- ================= 방문 · 다운로드 집계 (관리자 화면은 /admin) =================
-     같은 오리진의 /api/hit 로 fire-and-forget. 실패해도 페이지엔 영향 없음.
-     - t:"view"  → 페이지 로드 + 해시 라우트 이동마다 1
-     - t:"dl"    → 다운로드 버튼 클릭 시 asset 이름과 함께 1
--->
+<!-- ================= 방문 · 다운로드 집계 (관리자 화면은 /admin) ================= -->
 <script>
   (function () {
     function hit(payload) {

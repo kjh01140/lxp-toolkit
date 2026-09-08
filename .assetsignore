@@ -2,3 +2,6 @@ wrangler.toml
 README.md
 .gitignore
 .git
+.wrangler
+.token-optimizer
+assets/_check.png
