@@ -587,57 +587,33 @@
             <text x="160" y="182" text-anchor="middle" font-family="Schibsted Grotesk, sans-serif" font-size="11" fill="var(--ink-3)">Documents / LXP-Progress-Dashboard</text>
           </svg>
         </figure>
-        <div><span class="n">STEP 1</span><h4>폴더를 안 지울 곳에 둡니다</h4><p>압축을 풀어 오래 둘 위치로. 폴더를 지우거나 옮기면 확장이 사라집니다.</p></div>
+        <div><span class="n">STEP 1</span><h4>압축을 안 지울 곳에 풉니다</h4><p>문서 폴더처럼 오래 둘 위치로. 이 폴더를 지우거나 옮기면 확장이 사라집니다.</p></div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-pg-2">
-          <svg viewBox="0 0 320 200" role="img" aria-label="확장 프로그램 페이지에서 개발자 모드 켜기">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="28" y="30" width="264" height="140" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <rect x="28" y="30" width="264" height="30" rx="10" fill="var(--surface-2)"/>
-            <text x="52" y="49" font-family="Schibsted Grotesk, sans-serif" font-size="9" fill="var(--ink-3)">chrome://extensions</text>
-            <text x="44" y="86" font-family="IBM Plex Sans KR, sans-serif" font-size="12" font-weight="600" fill="var(--ink)">확장 프로그램</text>
-            <text x="196" y="86" font-family="IBM Plex Sans KR, sans-serif" font-size="10" fill="var(--ink-2)">개발자 모드</text>
-            <rect x="255" y="78" width="30" height="16" rx="8" fill="var(--prog)"/>
-            <circle cx="277" cy="86" r="6" fill="#fff"/>
-          </svg>
-        </figure>
-        <div><span class="n">STEP 2</span><h4><code>chrome://extensions</code> → 개발자 모드 ON</h4><p>주소창에 입력. 엣지는 <code>edge://extensions</code>.</p>
+        <figure class="figure shot" id="shot-pg-2"><img src="assets/di2.webp" alt="크롬 chrome://extensions 페이지" loading="lazy" /></figure>
+        <div><span class="n">STEP 2</span><h4>주소창에 <code>chrome://extensions</code> → 개발자 모드 ON</h4><p>엣지는 <code>edge://extensions</code>. 강의 다운로더와 같은 화면입니다.</p>
           <div class="copy-row"><code id="cp-2">chrome://extensions</code><button class="copy-btn" data-copy="#cp-2">복사</button></div>
         </div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-pg-3">
-          <svg viewBox="0 0 320 200" role="img" aria-label="압축해제된 확장 프로그램 로드로 폴더 선택">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="40" y="34" width="160" height="24" rx="7" fill="var(--prog)"/>
-            <text x="120" y="50" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif" font-size="10" font-weight="600" fill="#fff">압축해제된 확장 로드</text>
-            <rect x="66" y="74" width="188" height="96" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <g stroke="var(--ink-3)" stroke-width="1.6" fill="none"><path d="M82 108h150M82 126h150M82 144h110"/></g>
-            <circle cx="228" cy="148" r="13" fill="var(--prog)"/>
-            <path d="M222 148l4 4 8-8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-        </figure>
-        <div><span class="n">STEP 3</span><h4>“압축해제된 확장 프로그램 로드” → 폴더 선택</h4><p><code>manifest.json</code> 이 있는 폴더를 고릅니다. 목록에 “LXP 동영상 진도 현황”이 뜨면 끝.</p></div>
+        <figure class="figure shot" id="shot-pg-3"><img src="assets/pg3.webp" alt="폴더 선택 창에서 LXP-Progress-Dashboard 폴더 선택" loading="lazy" /></figure>
+        <div><span class="n">STEP 3</span><h4>“압축해제된 확장 프로그램 로드” → 압축 푼 폴더 선택</h4><p><code>manifest.json</code> 이 들어 있는 <code>LXP-Progress-Dashboard</code> 폴더를 고릅니다.</p></div>
       </div>
       <div class="step">
-        <figure class="figure" id="shot-pg-4">
-          <svg viewBox="0 0 320 200" role="img" aria-label="툴바 아이콘 클릭으로 패널 열기">
-            <rect width="320" height="200" fill="var(--surface-2)"/>
-            <rect x="40" y="40" width="240" height="34" rx="9" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-            <circle cx="248" cy="57" r="11" fill="var(--prog-soft)" stroke="var(--prog)" stroke-width="2"/>
-            <path d="M243 57h10M248 52v10" stroke="var(--prog)" stroke-width="2" stroke-linecap="round"/>
-            <rect x="196" y="86" width="96" height="84" rx="10" fill="var(--surface)" stroke="var(--prog)" stroke-width="2"/>
-            <rect x="206" y="98" width="76" height="12" rx="4" fill="var(--prog-soft)"/>
-            <rect x="206" y="118" width="76" height="12" rx="4" fill="var(--surface-2)"/>
-            <rect x="206" y="138" width="76" height="12" rx="4" fill="var(--surface-2)"/>
-          </svg>
-        </figure>
-        <div><span class="n">STEP 4</span><h4>툴바 아이콘 클릭 → 오른쪽 패널</h4><p>LXP 페이지에서 확장 아이콘을 누르면 오른쪽에 진도 패널이 열립니다. 자주 쓰면 퍼즐 아이콘에서 고정.</p></div>
+        <figure class="figure shot" id="shot-pg-4"><img src="assets/pg4.webp" alt="설치된 LXP 동영상 진도 현황 확장 카드" loading="lazy" /></figure>
+        <div><span class="n">STEP 4</span><h4>목록에 “LXP 동영상 진도 현황”이 뜨면 완료</h4><p>스위치가 켜져 있으면 사용 중입니다.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure shot" id="shot-pg-5"><img src="assets/di5.webp" alt="브라우저 툴바의 퍼즐 아이콘" loading="lazy" /></figure>
+        <div><span class="n">STEP 5</span><h4>툴바 오른쪽 퍼즐 아이콘 클릭</h4><p>주소창 오른쪽 조각(퍼즐) 모양 아이콘입니다.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure shot" id="shot-pg-6"><img src="assets/pg6.webp" alt="확장 메뉴에서 진도 현황 핀 고정" loading="lazy" /></figure>
+        <div><span class="n">STEP 6 · 선택</span><h4>“LXP 동영상 진도 현황” 옆 핀을 눌러 고정</h4><p>LXP 페이지에서 이 아이콘을 누르면 오른쪽에 진도 패널이 열립니다. 고정 안 해도 동작은 합니다.</p></div>
       </div>
     </div>
     <div class="notes">
-      <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>위 그림은 안내용입니다. <strong>실제 화면 캡처는 곧 추가</strong>됩니다. 설치 절차는 강의 다운로더와 동일합니다.</span></div>
+      <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>설치가 끝나면 <a href="#/progress/usage" style="color:var(--prog);text-decoration:none;font-weight:600">사용법</a>에서 패널 여는 법을 확인하세요.</span></div>
     </div>
   </section>
 
@@ -654,35 +630,9 @@
       <li>다 본 영상은 카드의 <strong>✕</strong> 로 목록에서 숨길 수 있습니다. “모두 표시”로 되돌리기.</li>
     </ol>
 
-    <figure class="how" id="shot-pg-run">
-      <svg viewBox="0 0 900 340" role="img" aria-label="화면 오른쪽에 열린 진도 현황 패널 예시">
-        <rect width="900" height="340" fill="var(--surface-2)"/>
-        <rect x="40" y="34" width="560" height="272" rx="14" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-        <rect x="40" y="34" width="560" height="30" rx="14" fill="var(--surface-2)"/>
-        <text x="60" y="54" font-family="Schibsted Grotesk, sans-serif" font-size="10" fill="var(--ink-3)">lxp.kau.ac.kr</text>
-        <rect x="628" y="34" width="232" height="272" rx="12" fill="var(--surface)" stroke="var(--prog)" stroke-width="2"/>
-        <text x="646" y="58" font-family="IBM Plex Sans KR, sans-serif" font-size="12" font-weight="700" fill="var(--ink)">동영상 진도 현황</text>
-        <line x1="646" y1="68" x2="842" y2="68" stroke="var(--line)" stroke-width="1.5"/>
-        <g font-family="IBM Plex Sans KR, sans-serif">
-          <rect x="646" y="80" width="196" height="58" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
-          <text x="656" y="98" font-size="9" fill="var(--ink-3)">시스템 과목 · 3주차 · D-2</text>
-          <text x="656" y="114" font-size="10" font-weight="600" fill="var(--ink)">3주차 강의 영상</text>
-          <rect x="656" y="122" width="52" height="12" rx="6" fill="var(--alert-soft)"/>
-          <text x="682" y="131" text-anchor="middle" font-size="8" font-weight="700" fill="var(--alert)">미완료</text>
-          <rect x="646" y="146" width="196" height="58" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
-          <text x="656" y="164" font-size="9" fill="var(--ink-3)">전공 과목 · 2주차 · D-5</text>
-          <text x="656" y="180" font-size="10" font-weight="600" fill="var(--ink)">2주차 이론</text>
-          <rect x="656" y="188" width="44" height="12" rx="6" fill="var(--prog-soft)"/>
-          <text x="678" y="197" text-anchor="middle" font-size="8" font-weight="700" fill="var(--prog)">완료</text>
-          <rect x="646" y="212" width="196" height="52" rx="9" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
-          <text x="656" y="230" font-size="9" fill="var(--ink-3)">교양 과목 · 4주차 · D-9</text>
-          <text x="656" y="246" font-size="10" font-weight="600" fill="var(--ink)">4주차 특강</text>
-          <rect x="656" y="252" width="52" height="12" rx="6" fill="var(--alert-soft)"/>
-          <text x="682" y="261" text-anchor="middle" font-size="8" font-weight="700" fill="var(--alert)">미완료</text>
-        </g>
-        <text x="646" y="288" font-family="Schibsted Grotesk, monospace" font-size="8" fill="var(--ink-3)">숨긴 항목 0개 · 모두 표시</text>
-      </svg>
-      <figcaption>임시 예시 — 실제 화면 캡처는 곧 추가됩니다.</figcaption>
+    <figure class="how shot" id="shot-pg-run">
+      <img src="assets/pgrun.webp" alt="화면 오른쪽에 열린 진도 현황 패널 (과목명 가림)" loading="lazy" />
+      <figcaption>마감 임박순 정렬 · 완료 / 미완료 · D-day · ✕ 로 숨기기 (과목명은 예시라 가림)</figcaption>
     </figure>
 
     <div class="notes">
@@ -696,7 +646,7 @@
 <footer>
   <div class="in">
     <span>LXP 툴킷 · 한국항공대 LXP 사용자를 위한 개인용 유틸리티</span>
-    <span>다음: 진도 현황 실제 스크린샷 · 스크롤 연동 연출</span>
+    <span>다음: 스크롤 연동 연출</span>
   </div>
 </footer>
 
