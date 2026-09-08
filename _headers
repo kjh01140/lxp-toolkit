@@ -1,0 +1,8 @@
+# Cloudflare Pages 헤더 규칙
+/admin
+  X-Robots-Tag: noindex, nofollow
+  Referrer-Policy: no-referrer
+
+/api/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store
