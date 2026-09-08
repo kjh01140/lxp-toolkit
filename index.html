@@ -219,7 +219,7 @@
   .figure { margin: 0; border-radius: 11px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); aspect-ratio: 16 / 10; }
   .figure svg, .figure img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .figure.shot { aspect-ratio: auto; background: #0c0e13; display: grid; place-items: center; }
-  .figure.shot img { object-fit: contain; width: 100%; height: auto; max-height: 360px; }
+  .figure.shot img { object-fit: contain; width: 100%; height: auto; max-height: 400px; border-radius: 9px; }
   .step .n { font-family: var(--font-mono); font-size: .78rem; font-weight: 700; color: var(--accent); }
   body[data-tool="alarm"] .step .n { color: var(--alert); }
   body[data-tool="progress"] .step .n { color: var(--prog); }
@@ -349,21 +349,29 @@
             <text x="160" y="182" text-anchor="middle" font-family="Schibsted Grotesk, sans-serif" font-size="11" fill="var(--ink-3)">Documents / LXP-Lecture-Downloader</text>
           </svg>
         </figure>
-        <div><span class="n">STEP 1</span><h4>폴더를 안 지울 곳에 둡니다</h4><p>압축을 풀어 문서 폴더처럼 오래 둘 위치로. 폴더를 지우거나 옮기면 확장이 사라집니다.</p></div>
+        <div><span class="n">STEP 1</span><h4>압축을 안 지울 곳에 풉니다</h4><p>문서 폴더처럼 오래 둘 위치로. 이 폴더를 지우거나 옮기면 확장이 사라집니다.</p></div>
       </div>
       <div class="step">
-        <figure class="figure shot" id="shot-dl-2"><img src="assets/dl-2.png" alt="크롬 chrome://extensions 페이지, 오른쪽 위 개발자 모드" loading="lazy" /></figure>
-        <div><span class="n">STEP 2</span><h4><code>chrome://extensions</code> → 개발자 모드 ON</h4><p>주소창에 입력. 엣지는 <code>edge://extensions</code>. 오른쪽 위 “개발자 모드”를 켭니다.</p>
+        <figure class="figure shot" id="shot-dl-2"><img src="assets/di2.webp" alt="크롬 chrome://extensions 페이지" loading="lazy" /></figure>
+        <div><span class="n">STEP 2</span><h4>주소창에 <code>chrome://extensions</code> → 개발자 모드 ON</h4><p>엣지는 <code>edge://extensions</code>. 오른쪽 위 “개발자 모드”를 켭니다.</p>
           <div class="copy-row"><code id="cp-1">chrome://extensions</code><button class="copy-btn" data-copy="#cp-1">복사</button></div>
         </div>
       </div>
       <div class="step">
-        <figure class="figure shot" id="shot-dl-3"><img src="assets/dl-3.png" alt="폴더 선택 창에서 압축 푼 폴더 고르기" loading="lazy" /></figure>
-        <div><span class="n">STEP 3</span><h4>“압축해제된 확장 프로그램 로드” → 폴더 선택</h4><p><code>manifest.json</code> 이 있는 폴더를 고릅니다. 목록에 “LXP 강의 다운로더”가 뜨면 끝.</p></div>
+        <figure class="figure shot" id="shot-dl-3"><img src="assets/di3.webp" alt="폴더 선택 창" loading="lazy" /></figure>
+        <div><span class="n">STEP 3</span><h4>“압축해제된 확장 프로그램 로드” → 압축 푼 폴더 선택</h4><p>왼쪽 위 버튼입니다. <code>manifest.json</code> 이 들어 있는 폴더를 고릅니다.</p></div>
       </div>
       <div class="step">
-        <figure class="figure shot" id="shot-dl-4"><img src="assets/dl-4.png" alt="툴바 확장 메뉴에서 다운로더 아이콘 고정" loading="lazy" /></figure>
-        <div><span class="n">STEP 4 · 선택</span><h4>툴바 퍼즐 아이콘에서 고정</h4><p>자주 쓰면 편합니다. 켤 때마다 뜨는 “개발자 모드 확장” 안내는 닫아도 됩니다.</p></div>
+        <figure class="figure shot" id="shot-dl-4"><img src="assets/di4.webp" alt="설치된 확장 카드" loading="lazy" /></figure>
+        <div><span class="n">STEP 4</span><h4>목록에 “LXP 강의 다운로더”가 뜨면 완료</h4><p>스위치가 켜져 있으면 사용 중입니다. 여기까지면 설치 끝.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure shot" id="shot-dl-5"><img src="assets/di5.webp" alt="브라우저 툴바의 퍼즐 아이콘" loading="lazy" /></figure>
+        <div><span class="n">STEP 5</span><h4>툴바 오른쪽 퍼즐 아이콘 클릭</h4><p>주소창 오른쪽에 있는 조각(퍼즐) 모양 아이콘입니다.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure shot" id="shot-dl-6"><img src="assets/di6.webp" alt="확장 메뉴에서 핀 고정" loading="lazy" /></figure>
+        <div><span class="n">STEP 6 · 선택</span><h4>“LXP 강의 다운로더” 옆 핀을 눌러 고정</h4><p>고정해두면 툴바에 아이콘이 항상 보입니다. 안 해도 동작은 합니다.</p></div>
       </div>
     </div>
     <div class="notes">
@@ -384,10 +392,24 @@
       <li>파일명 확인 후 <strong>“이 위치에 다운로드”</strong>. 진행바가 끝나면 완료.</li>
     </ol>
 
-    <figure class="how" id="shot-dl-run">
-      <img src="assets/dl-run.png" alt="다운로더 패널에서 감지된 스트림과 저장 버튼" loading="lazy" />
-      <figcaption>재생 → 우상단 패널 → 폴더 한 번 지정 → “이 위치에 다운로드”</figcaption>
-    </figure>
+    <div class="steps">
+      <div class="step">
+        <figure class="figure shot" id="shot-dl-u1"><img src="assets/du1.webp" alt="강의 재생 후 스트림이 감지된 패널" loading="lazy" /></figure>
+        <div><span class="n">STEP 1</span><h4>강의 영상을 재생하면 패널에 스트림이 잡힙니다</h4><p>“스트림 N건 감지됨”이 뜨면 준비 완료. 안 뜨면 “이 탭 다시 검사”를 누릅니다.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure shot" id="shot-dl-u2"><img src="assets/du2.webp" alt="저장 폴더 선택과 다운로드 버튼" loading="lazy" /></figure>
+        <div><span class="n">STEP 2</span><h4>“폴더 선택” → 저장 위치 지정 → “이 위치에 다운로드”</h4><p>폴더는 한 번만 지정하면 다음부터 기억됩니다. 파일명도 확인하세요.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure shot" id="shot-dl-u3"><img src="assets/du3.webp" alt="세그먼트를 받는 진행 상태" loading="lazy" /></figure>
+        <div><span class="n">STEP 3</span><h4>세그먼트를 순서대로 받습니다</h4><p>“세그먼트 14/484”처럼 진행 상황이 표시됩니다. 탭은 열어 두세요.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure shot" id="shot-dl-u4"><img src="assets/du4.webp" alt="저장 완료 메시지" loading="lazy" /></figure>
+        <div><span class="n">STEP 4</span><h4>“저장 완료”가 뜨면 끝</h4><p>지정한 폴더에 <code>.ts</code> 파일이 생깁니다. VLC·PotPlayer·mpv로 바로 재생.</p></div>
+      </div>
+    </div>
 
     <div class="notes">
       <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span><strong>진도율은 건드리지 않습니다.</strong> 재생은 평소대로, 이 도구는 복습본만 받습니다.</span></div>
@@ -438,23 +460,27 @@
       </a>
     </div>
 
-    <div class="block-label">압축 해제 후, 더블클릭 → 4가지 입력</div>
+    <div class="block-label">다운로드 → 압축 → 설치 → 입력, 약 2분</div>
     <div class="steps">
       <div class="step">
-        <figure class="figure shot" id="shot-al-1"><img src="assets/al-1.png" alt="압축을 푼 폴더 안의 파일 목록" loading="lazy" /></figure>
-        <div><span class="n">STEP 1</span><h4>압축을 풀어 아무 데나</h4><p>바탕화면·문서 폴더 어디든. 옮기려면 <code>제거.bat</code> 후 다시 설치.</p></div>
+        <figure class="figure shot" id="shot-al-1"><img src="assets/ai1.webp" alt="LXP_alarm_setup.zip 다운로드 완료" loading="lazy" /></figure>
+        <div><span class="n">STEP 1</span><h4>ZIP 다운로드가 끝나면</h4><p>브라우저 다운로드 목록에 <code>LXP_alarm_setup.zip</code> 이 보입니다.</p></div>
       </div>
       <div class="step">
-        <figure class="figure shot" id="shot-al-2"><img src="assets/al-2.png" alt="설치.bat 실행 시 나오는 Windows 보안 경고" loading="lazy" /></figure>
-        <div><span class="n">STEP 2</span><h4><code>설치.bat</code> 더블클릭</h4><p>파란 경고창은 <strong>“추가 정보 → 실행”</strong>. 서명 안 된 개인 프로그램이라 뜨는 정상 경고.</p></div>
+        <figure class="figure shot" id="shot-al-2"><img src="assets/ai2.webp" alt="압축을 푼 폴더 안의 파일" loading="lazy" /></figure>
+        <div><span class="n">STEP 2</span><h4>압축을 풀어 아무 데나 둡니다</h4><p>바탕화면·문서 폴더 어디든. 폴더 안에 <code>설치</code>·<code>제거</code>·<code>테스트</code> 파일이 있습니다.</p></div>
       </div>
       <div class="step">
-        <figure class="figure shot" id="shot-al-3"><img src="assets/al-3.png" alt="설치 창에 아이디·비밀번호·학기·주기 입력 (개인정보 가림)" loading="lazy" /></figure>
-        <div><span class="n">STEP 3</span><h4>네 가지 입력</h4><p>LXP 아이디·비밀번호, 학기(<code>2026-2</code>), 확인 주기(<code>30m</code>). 비밀번호는 화면에 안 보이는 게 정상.</p></div>
+        <figure class="figure shot" id="shot-al-3"><img src="assets/ai3.webp" alt="설치 실행 시 Windows 보안 경고" loading="lazy" /></figure>
+        <div><span class="n">STEP 3</span><h4><code>설치</code> 더블클릭 → 경고창은 “실행”</h4><p>“게시자를 확인할 수 없음” 경고는 서명 안 된 개인 프로그램이라 뜨는 정상 화면입니다. 파란 SmartScreen이면 “추가 정보 → 실행”.</p></div>
       </div>
       <div class="step">
-        <figure class="figure shot" id="shot-al-4"><img src="assets/al-4.png" alt="설치 완료 후 뜨는 감시 시작 알림" loading="lazy" /></figure>
-        <div><span class="n">STEP 4</span><h4>“설치 완료!” → 창 닫기</h4><p>약 1분 뒤 테스트 알림이 뜨면 정상. 이후 주기마다 자동. 다시 확인은 <code>테스트.bat</code>.</p></div>
+        <figure class="figure shot" id="shot-al-4"><img src="assets/ai4.webp" alt="설치 창에 정보 입력 (개인정보 가림)" loading="lazy" /></figure>
+        <div><span class="n">STEP 4</span><h4>검은 창에 네 가지 입력</h4><p>LXP 아이디·비밀번호, 학기(<code>2026-2</code>), 확인 주기(<code>30m</code>). 비밀번호는 입력해도 화면에 안 보이는 게 정상입니다.</p></div>
+      </div>
+      <div class="step">
+        <figure class="figure shot" id="shot-al-5"><img src="assets/ai5.webp" alt="감시 시작 알림" loading="lazy" /></figure>
+        <div><span class="n">STEP 5</span><h4>“설치 완료!” + 감시 시작 알림</h4><p>약 1분 뒤 테스트 알림이 한 번 뜨면 정상입니다. 창은 닫아도 됩니다. 다시 확인은 <code>테스트</code>.</p></div>
       </div>
     </div>
   </section>
